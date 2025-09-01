@@ -24,7 +24,8 @@ if ($accion === "insertar") {
 
     if ($stmt->execute()) {
         // Redirigir a index.html (se usará fetch para cargar los datos)
-        header("Location: index.html");
+        //header("Location: index.html");
+        echo "Usuario registrado";
         exit();
     } else {
         echo "Error al guardar: " . $stmt->error;
@@ -57,7 +58,7 @@ elseif ($accion === "login") {
 
     if($fila = $resultado->fetch_assoc()) {
         // Validar contraseña
-        if($fila['password'] === $pass) { // si luego usan password_hash, cambiar a password_verify
+        if($fila['password'] === $pass) { // si se usa password_hash, cambiar a password_verify
             echo json_encode(['success' => true, 'nombre' => $fila['nombre']]);
         } else {
             echo json_encode(['success' => false]);
