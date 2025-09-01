@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+    <h2>Registro de Usuario</h2>
+    <form id="form_registro">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" required placeholder="Nombre"><br><br>
+
+        <label for="password">Contraseña:</label><br>
+        <input type="password" name="password" required placeholder="Contraseña"><br><br>
+
+        <input type="submit" value="Registrar">
+    </form>
+
+    <br>
+    <a href="index.html">Volver</a>
+
+     <script>
+        const form = document.getElementById('form_registro');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita recargar la página
+
+            const formData = new FormData(form);
+            formData.append('accion', 'insertar');
+
+            fetch('usuario_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(data => {
+                // Guardamos el usuario en sessionStorage
+                sessionStorage.setItem('usuario', formData.get('nombre'));
+                // Redirigimos automáticamente al index
+                window.location.href = 'index.html';
+            })
+            .catch(err => alert("Error al registrar usuario: " + err));
+        });
+    </script>
+
+</body>
+
+</html>

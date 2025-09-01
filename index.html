@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios Registrados</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+    <div class="encabezado">
+        <span id="usuarioNombre" class="usuario_logueado"></span>
+        <a href="registro_usuario.html" id="botonRegistro" class="boton_registro">Registrarse</a>
+        <a href="login.html" id="botonlogin" class="boton_registro">Iniciar Sesión</a>
+    </div>
+
+    <h2>Página de Inicio</h2>
+    <div class="contenedor" id="contenedorUsuarios"></div>
+
+    <script>
+        const nombreUsuario = sessionStorage.getItem('usuario');
+        const botonRegistro = document.getElementById('botonRegistro');
+        const usuarioNombre = document.getElementById('usuarioNombre');
+
+        // Manejo de sesión
+        if (nombreUsuario) {
+            
+            usuarioNombre.textContent = "Bienvenido, " + nombreUsuario;
+
+            // Cambiar botón a "Cerrar sesión"
+            botonRegistro.style.display = "none";
+            botonlogin.textContent = "Cerrar sesión";
+            botonlogin.href = "#";
+
+            botonlogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                sessionStorage.removeItem('usuario'); // cerrar sesión
+                window.location.reload(); // recargar para mostrar botón "Registrarse"
+            });
+
+            
+        }
+
+        // Listar usuarios
+        fetch("usuario_api.php?accion=listar")
+            .then(res => res.json())
+            .then(data => {
+                const contenedor = document.getElementById("contenedorUsuarios");
+                contenedor.innerHTML = ""; // limpiar contenedor
+                data.forEach(usuario => {
+                    const div = document.createElement("div");
+                    div.className = "card";
+                    div.innerHTML = `<h3>${usuario.nombre}</h3><p>ID: ${usuario.id}</p>`;
+                    contenedor.appendChild(div);
+                });
+            })
+            .catch(err => console.error("Error:", err));
+    </script>
+</body>
+
+</html>
