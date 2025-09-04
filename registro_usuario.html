@@ -1,50 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Registro de Usuario</title>
-    <link rel="stylesheet" href="estilo.css">
-</head>
+    <link rel="stylesheet" href="estilo.css" />
+  </head>
 
-<body>
-    <h2>Registro de Usuario</h2>
-    <form id="form_registro" class="form_registro">
-        <input type="text" name="nombre" required placeholder="Nombre"><br><br>
-        <input type="password" name="password" required placeholder="Contraseña"><br><br>
+  <body>
+    <div class="caja_form">
+      <h2>Registro de Usuario</h2>
+      <form id="form_registro" class="form_registro">
+        <input
+          type="text"
+          name="nombre"
+          required
+          placeholder="Nombre"
+        /><br /><br />
+        <input
+          type="password"
+          name="password"
+          required
+          placeholder="Contraseña"
+        /><br /><br />
 
-        <input type="submit" value="Registrar">
-    </form>
+        <input type="submit" value="Registrar" />
+      </form>
 
-    <br>
-    <a href="index.html">Volver</a>
+      <br />
+      <a href="index.html">Volver</a>
+    </div>
 
-     <script>
-        const form = document.getElementById('form_registro');
+    <script>
+      const form = document.getElementById("form_registro");
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita recargar la página
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // Evita recargar la página
 
-            const formData = new FormData(form);
-            formData.append('accion', 'insertar');
+        const formData = new FormData(form);
+        formData.append("accion", "insertar");
 
-            fetch('usuario_api.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.text())
-            .then(data => {
-                // mostrar errores en la consola:
-                //console.log("Respuesta: ", data);
-                // Guardamos el usuario en sessionStorage
-                sessionStorage.setItem('usuario', formData.get('nombre'));
-                // Redirigimos automáticamente al index
-                window.location.href = 'index.html';
-            })
-            .catch(err => alert("Error al registrar usuario: " + err));
-        });
+        fetch("usuario_api.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            // mostrar errores en la consola:
+            //console.log("Respuesta: ", data);
+            // Guardamos el usuario en sessionStorage
+            sessionStorage.setItem("usuario", formData.get("nombre"));
+            // Redirigimos automáticamente al index
+            window.location.href = "index.html";
+          })
+          .catch((err) => alert("Error al registrar usuario: " + err));
+      });
     </script>
-
-</body>
-
+  </body>
 </html>

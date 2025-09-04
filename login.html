@@ -1,57 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="estilo.css">
-</head>
-<body>
-    <h2>Iniciar Sesión</h2>
-    <form id="loginForm">
-        <label for="nombre">Nombre:</label><br>
-        <input type="text" name="nombre" required placeholder="Nombre"><br><br>
-
-        <label for="password">Contraseña:</label><br>
-        <input type="password" name="password" required placeholder="Contraseña"><br><br>
+    <link rel="stylesheet" href="estilo.css" />
+  </head>
+  <body>
+    <div class="caja_form">
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm">
+        <input
+          type="text"
+          name="nombre"
+          required
+          placeholder="Nombre"
+        /><br /><br />
+        <input
+          type="password"
+          name="password"
+          required
+          placeholder="Contraseña"
+        /><br /><br />
 
         <button type="submit">Ingresar</button>
-    </form>
+      </form>
 
-    <div id="mensaje" class="mensaje"></div>
+      <div id="mensaje" class="mensaje"></div>
 
-    <br>
-    <a href="index.html">Volver</a>
+      <br />
+      <a href="index.html">Volver</a>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('loginForm');
-            const mensaje = document.getElementById('mensaje');
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("loginForm");
+        const mensaje = document.getElementById("mensaje");
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
 
-                const formData = new FormData(form);
-                formData.append('accion', 'login'); // nueva acción para login
+          const formData = new FormData(form);
+          formData.append("accion", "login"); // nueva acción para login
 
-                fetch('usuario_api.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.success) {
-                        // Guardamos usuario en sessionStorage y vamos a index
-                        sessionStorage.setItem('usuario', data.nombre);
-                        window.location.href = 'index.html';
-                    } else {
-                        mensaje.textContent = "Usuario o contraseña incorrectos";
-                    }
-                })
-                .catch(err => {
-                    mensaje.textContent = "Error al iniciar sesión: " + err;
-                });
+          fetch("usuario_api.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success) {
+                // Guardamos usuario en sessionStorage y vamos a index
+                sessionStorage.setItem("usuario", data.nombre);
+                window.location.href = "index.html";
+              } else {
+                mensaje.textContent = "Usuario o contraseña incorrectos";
+              }
+            })
+            .catch((err) => {
+              mensaje.textContent = "Error al iniciar sesión: " + err;
             });
         });
+      });
     </script>
-</body>
+  </body>
 </html>
